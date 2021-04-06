@@ -36,12 +36,3 @@ def resize_to_fit(image, width, height):
 
     # return the pre-processed image
     return image
-
-
-import cv2 as cv
-
-img = cv.imread('extracted_letter_images/001.png')
-width = 32
-height = 32
-res = cv.resize(img, (width, height), interpolation=cv.INTER_AREA)
-cv.imwrite('resized_002.png', res)
