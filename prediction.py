@@ -1,13 +1,13 @@
 import tensorflow as tf
-import cv2 as cv
-from resize import resize_to_fit
 import numpy as np
 
-image = cv.imread('extracted_letter_images/005.png')
-image_resized = resize_to_fit(image, 32, 32)
-# cv.imwrite('ResizedStorage/005_resized.png', image_resized)
-# image_resized = np.expand_dims(image_resized, axis=0)
+img = tf.keras.preprocessing.image.load_img(
+    'ResizedStorage/005_resized.png',
+    target_size=(32, 32)
+)
 
-model = tf.keras.models.load_model('Model/CAPTCHA-Model')
-model.summary()
-# print(model.predict('ResizedStorage/005_resized.png'))
+img_nparray = tf.keras.preprocessing.image.img_to_array(img)
+input_batch = np.array([img_nparray])
+
+model = tf.saved_model.load('CAPTCHA-Model-New')
+print(model.evaluate(input_batch))

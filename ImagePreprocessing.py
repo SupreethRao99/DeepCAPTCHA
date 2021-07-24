@@ -15,7 +15,9 @@ img = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 ret, thresh = cv.threshold(img, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
 padded = cv.copyMakeBorder(thresh, 5, 5, 5, 5, cv.BORDER_CONSTANT, value=white)
 
-contours, hierarchy = cv.findContours(padded, cv.RETR_TREE, cv.CHAIN_APPROX_NONE)
+contours, hierarchy = cv.findContours(padded,
+                                      cv.RETR_TREE,
+                                      cv.CHAIN_APPROX_NONE)
 letter_image_regions = []
 
 for cnt in contours:
@@ -30,7 +32,8 @@ for letter_bounding_box in letter_image_regions:
     count = count + 1
     # Grab the coordinates of the letter in the image
     x, y, w, h = letter_bounding_box
-    # Extract the letter from the original image with a 2-pixel margin around the edge
+    # Extract the letter from the original image with a 2-pixel
+    # margin around the edge
     letter_image = padded[y - 2:y + h + 2, x - 2:x + w + 2]
     p = os.path.join(OUTPUT_FOLDER, '{}.png'.format(str(count).zfill(3)))
     cv.imwrite(p, letter_image)
